@@ -73,9 +73,6 @@
             widget.find('.day-selected').removeClass('day-selected');
             widget.dateselected(td.addClass('day-selected').data('date'));
 
-        }).bind('click.calendar dblclick.calendar', function (e) {
-            e.stopPropagation();
-            e.preventDefault();
         });
 
         return widget;
@@ -95,7 +92,7 @@
                             .trigger('hide' + namespace);
                     })
                     .bind('click', function () {
-                        clearTimeout(self.data('tmr' + namespace));
+                        self.trigger('cancelhide' + namespace);
                     })
                     .css({ position: 'absolute' }).hide()
                     .appendTo(document.body);
@@ -120,10 +117,14 @@
                         .css({ top: off.top + self.outerHeight(), left: off.left }).show();
 
                 }).bind('blur starthide' + namespace, function () {
-                    self.data('tmr' + namespace, setTimeout(function () { self.trigger('hide' + namespace); }, 300));
+                    self.trigger('cancelhide' + namespace)
+                        .data('tmr' + namespace, setTimeout(function () { self.trigger('hide' + namespace); }, 300));
 
-                }).bind('hide' + namespace, function () {
+                }).bind('cancelhide' + namespace, function(){
                     clearTimeout(self.data('tmr' + namespace));
+                })
+                .bind('hide' + namespace, function () {
+                    self.trigger('cancelhide' + namespace);
                     if (calendar) {
                         calendar.hide();
                     }
