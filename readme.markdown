@@ -5,4 +5,4 @@ This is my attempt at creating a wrapper for the JavaScript Date object to provi
 
 Also included is a date-picker control (__jquery.calendar.js__).
 
-View __index.html__ or ([http://andy.edinborough.org/demos/caelendar/](http://andy.edinborough.org/demos/caelendar/)) for a demo.
+View __index.html__ or ([http://andy.edinborough.org/demos/calendar/](http://andy.edinborough.org/demos/calendar/)) for a demo.
