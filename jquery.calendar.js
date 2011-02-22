@@ -83,25 +83,15 @@
 
     var namespace = '.calendar';
     $.fn.datepicker = function (o) {
-        if (o === 'widget') return $(this).data('widget' + namespace);
-        if (typeof o == 'string') this.trigger(o + namespace);
+        var calendar = this.data('widget' + namespace);
 
-        return this.each(function () {
-            var self = $(this), calendar;
-            options = $.extend({ format: self.data('format') || 'yyyy-MM-dd' }, o);
-            if (options.time === undefined) options.time = options.format.indexOf('H') > -1 || options.format.indexOf('h') > -1 || options.format.indexOf('m') > -1 || options.format.indexOf('s') > -1;
-
-            self.bind('focus show' + namespace, function () {
-                clearTimeout(self.data('tmr' + namespace));
-                calendar = self.data('widget' + namespace),
-                    off = self.offset();
-
-                if (!calendar) {
-                    self.data('widget' + namespace, calendar = $.calendar(options));
-                    calendar.bind('day-selected' + namespace, function (e) {
-                        self
-                            .data('datevalue', e.date)
+        if (!calendar) {
+            function create(self) {
+                var calendar = $.calendar(options)
+                    .bind('day-selected' + namespace, function (e) {
+                        self.data('datevalue', e.date)
                             .val(e.formatDate())
+                            .change()
                             .trigger('hide' + namespace);
                     })
                     .bind('click', function () {
@@ -109,26 +99,48 @@
                     })
                     .css({ position: 'absolute' }).hide()
                     .appendTo(document.body);
-                }
 
-                calendar
-                    .select(self.data('datevalue') || self.val())
-                    .css({ top: off.top + self.outerHeight(), left: off.left }).show();
+                self.data('widget' + namespace, calendar);
+                return calendar;
+            }
 
-            }).bind('blur starthide' + namespace, function () {
-                self.data('tmr' + namespace, setTimeout(function () { self.trigger('hide' + namespace); }, 300));
+            this.each(function () {
+                var self = $(this);
+                options = $.extend({ format: self.data('format') || 'yyyy-MM-dd' }, o);
+                if (options.time === undefined) options.time = options.format.indexOf('H') > -1 || options.format.indexOf('h') > -1 || options.format.indexOf('m') > -1 || options.format.indexOf('s') > -1;
 
-            }).bind('hide' + namespace, function () {
-                clearTimeout(self.data('tmr' + namespace));
-                if (calendar) {
-                    calendar.hide();
-                }
+                self.bind('focus show' + namespace, function () {
+                    clearTimeout(self.data('tmr' + namespace));
+                    calendar = self.data('widget' + namespace);
+                    if (!calendar) calendar = create(self);
+                    off = self.offset();
 
-            }).bind('change', function () {
-                calendar.select(self.data('datevalue') || self.val());
+                    calendar
+                        .select(self.data('datevalue') || self.val())
+                        .css({ top: off.top + self.outerHeight(), left: off.left }).show();
+
+                }).bind('blur starthide' + namespace, function () {
+                    self.data('tmr' + namespace, setTimeout(function () { self.trigger('hide' + namespace); }, 300));
+
+                }).bind('hide' + namespace, function () {
+                    clearTimeout(self.data('tmr' + namespace));
+                    if (calendar) {
+                        calendar.hide();
+                    }
+
+                }).bind('change', function () {
+                    if (calendar) {
+                        calendar.select(self.data('datevalue') || self.val());
+                    }
+                });
+
+                if (o === 'widget') calendar = create(self);
             });
+        }
 
-        });
+        if (o === 'widget') return calendar;
+        if (typeof o == 'string') this.trigger(o + namespace);
+        return this;
     }
 
     $.fn.datetimepicker = function (o) {

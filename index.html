@@ -76,7 +76,21 @@
 <script src="DateTime.js"></script>
 <script src="jquery.calendar.js"></script>
 <script>
-    $('input[type=date]').datepicker(); //wire up the datepicker
+    var date = new DateTime(), table = $('.formats');
+    $('input[type=date]').datepicker() //wire up the datepicker
+        .change(function (e) {         //regenerate the format table based on the selected date
+            date = $(this).data('datevalue') || new DateTime(this.value);
+            table.find('.format-example').remove();
+            $.each(DateTime.formats, function (name, value) {
+                table.append('<tr class="format-example"><td>' + name + '</td><td>' + value(date, DateTime.defaults) + '</td></tr>');
+            });
+
+            $.each(DateTime.common_formats, function (name, value) {
+                table.append('<tr class="format-example"><td>' + name + '</td><td>' + date.format(name) + '</td></tr>');
+            });
+
+            $('.demo-format').keyup();
+        }).change();
 
     $('code').each(function () {
         var self = $(this), script = self.text(), func = new Function('return ' + script);
@@ -84,17 +98,6 @@
     });
 
     $('.demo-format').keyup(function () {
-        $('.demo-format-result').text(new DateTime().format(this.value));
+        $('.demo-format-result').text(date.format(this.value));
     }).keyup();
-
-    var table = $('.formats'), date = new DateTime();
-
-    $.each(DateTime.formats, function (name, value) {
-        table.append('<tr><td>' + name + '</td><td>' + value(date, DateTime.defaults) + '</td></tr>');
-    });
-
-    $.each(DateTime.common_formats, function (name, value) {
-        table.append('<tr><td>' + name + '</td><td>' + date.format(name) + '</td></tr>');
-    });
-
 </script>
