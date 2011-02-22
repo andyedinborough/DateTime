@@ -150,7 +150,7 @@
                 + (i > 0 && i < 6 ? 'day-week' : 'day-weekend')
                 + '">' + datetime.defaults.days[i].substr(0, 3) + '</span>';
         }
-        html += '</div></div><div class="calendar-body>';
+        html += '</div></div><div class="calendar-body">';
 
         var day = -first.dayOfWeek, dow = 0, shortNames = [];
         $.each(datetime.defaults.days, function (i, day) {

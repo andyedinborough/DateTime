@@ -41,6 +41,11 @@
             <input type="date" id="txtdate" data-format="yyyy-MM-dd" />
         </p>
 
+        <h3>Calendar Output:</h3>
+        <span>Look Ma, no tables!</span>
+        <p class="demo"><code>$.calendar().html()</code></p>
+
+
         <h2>Formatting</h2>
         <p class="demo"><code>new DateTime(2011, 2, 22).format()</code></p>
         <p class="demo"><code>new DateTime(new Date()).format()</code></p>
@@ -75,7 +80,7 @@
 
     $('code').each(function () {
         var self = $(this), script = self.text(), func = new Function('return ' + script);
-        $('<strong class="result"/>').text(func()).insertAfter(self);
+        $('<span class="result"/>').text(func()).insertAfter(self);
     });
 
     $('.demo-format').keyup(function () {
@@ -91,4 +96,5 @@
     $.each(DateTime.common_formats, function (name, value) {
         table.append('<tr><td>' + name + '</td><td>' + date.format(name) + '</td></tr>');
     });
+
 </script>
