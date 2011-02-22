@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Calendar Demo &rarr; Andy Edinborough</title>
+<!--
+       __                     __                                     
+      /  )         /         /  `   /         /                    / 
+     /--/ ____  __/ __  ,   /--  __/ o ____  /____ __  __ . . _,  /_ 
+    /  (_/ / <_(_/_/ (_/_  (___,(_/_<_/ / <_/_)(_)/ (_(_)(_/_(_)_/ /_
+                      /                                       /|     
+                     '                                       |/      
+                                                                was here
+-->
+    
+
+    <link href="jquery.calendar.css" rel="stylesheet" />
+    <style>
+        body {
+            font: 12px tahoma, arial, sans-serif;
+        }
+ 
+        p { margin: 1em 0 2em 0; }
+
+        .demo code {
+            background: #f9f9f9;
+            padding: 0.6em;
+            margin-right: 1em;
+        } 
+
+         
+    </style>
+</head>
+
+<body>
+    <h1>The JavaScript Date object with some C#-inspired lovin'</h1>
+    <form>
+        <h2>Calendar</h2>
+        <p>
+            <label for="txtdate">Calendar Demo:</label>
+            <input type="date" id="txtdate" data-format="yyyy-MM-dd" />
+        </p>
+
+        <h2>Formatting</h2>
+        <p class="demo"><code>new DateTime(2011, 2, 22).format()</code></p>
+        <p class="demo"><code>new DateTime(new Date()).format()</code></p>
+        <p class="demo"><code>new DateTime(new Date().getTime()).format()</code></p>
+        <p class="demo"><code>new DateTime().addMonths(1).format('dddd, MMMM d, yyyy')</code></p>
+        <p class="demo"><code>new DateTime().addDays(1).format('u')</code></p>
+        <p class="demo"><code>new DateTime().addDays(1).format('r')</code></p>
+
+        <p>
+            Try out formatting:
+            <input class="demo-format" value="yyyy-MM-dd" />
+            <span class="demo-format-result"></span>
+        </p>
+
+        <h3>Formats</h3>
+        <table class="formats">
+            <thead>
+                <tr>
+                    <th>Name</th><th>Ex. Output</th>
+                </tr>
+            </thead>
+        </table>
+        
+    </form>
+
+<!-- all teh hipsters put teh javascripts last -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script src="DateTime.js"></script>
+<script src="jquery.calendar.js"></script>
+<script>
+    $('input[type=date]').datepicker(); //wire up the datepicker
+
+    $('code').each(function () {
+        var self = $(this), script = self.text(), func = new Function('return ' + script);
+        $('<strong class="result"/>').text(func()).insertAfter(self);
+    });
+
+    $('.demo-format').keyup(function () {
+        $('.demo-format-result').text(new DateTime().format(this.value));
+    }).keyup();
+
+    var table = $('.formats'), date = new DateTime();
+
+    $.each(DateTime.formats, function (name, value) {
+        table.append('<tr><td>' + name + '</td><td>' + value(date, DateTime.defaults) + '</td></tr>');
+    });
+
+    $.each(DateTime.common_formats, function (name, value) {
+        table.append('<tr><td>' + name + '</td><td>' + date.format(name) + '</td></tr>');
+    });
+</script>

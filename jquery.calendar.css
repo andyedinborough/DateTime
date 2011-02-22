@@ -1,0 +1,53 @@
+.inline-block {
+  display: -moz-inline-stack;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}
+.ui-calendar {
+  background: white;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -k-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  z-index: 9999;
+  border: solid 2px #eee;
+}
+.ui-calendar .month-name, .ui-calendar .day-name {
+  font-weight: bold;
+}
+.ui-calendar span {
+  display: inline-block;
+  zoom: 1;
+  width: 30px;
+  overflow: hidden;
+  text-align: center;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -k-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  cursor: default;
+  margin: 1px;
+}
+.ui-calendar .week .day {
+  height: 20px;
+}
+.ui-calendar .day-weekend {
+  color: #888;
+}
+.ui-calendar .action {
+  cursor: pointer;
+}
+.ui-calendar .action:hover {
+  background: #eee;
+}
+.ui-calendar .month-name {
+  width: 94px;
+}
+.ui-calendar .day-selected {
+  background: #ff952c !important;
+}
