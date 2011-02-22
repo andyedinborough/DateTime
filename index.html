@@ -43,7 +43,7 @@
 
         <h3>Calendar Output:</h3>
         <span>Look Ma, no tables!</span>
-        <p class="demo"><code>$.calendar().html()</code></p>
+        <p class="demo calendar-demo"><code>$.calendar().html()</code></p>
 
 
         <h2>Formatting</h2>
@@ -90,7 +90,12 @@
             });
 
             $('.demo-format').keyup();
-        }).change();
+        }).change() //fire the change event to generate the demos
+
+        .datepicker('widget').bind('day-rendered', function () {
+            var calendar = $(this);
+            $('.calendar-demo .result').text(calendar.html());
+        });
 
     $('code').each(function () {
         var self = $(this), script = self.text(), func = new Function('return ' + script);

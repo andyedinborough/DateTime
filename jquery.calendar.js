@@ -22,7 +22,7 @@
             date.addMonths((months || 0) + (years || 0) * 12);
             options.dateRender = date;
             this.children('.ui-calendar-box').html(build(options));
-            return this;
+            return this.trigger({ type: 'day-rendered', options: options, date: options.dateRender });
         }
 
         widget.dateselected = function (date) {
