@@ -1,0 +1,48 @@
+﻿@import 'common';
+
+.ui-calendar {
+    @w: 30px;
+    background: white;
+    .border-radius(4px);
+    z-index: 9999;
+    border: solid 2px #eee;
+
+    .month-name, .day-name {
+        font-weight: bold;
+    }
+
+    span {
+        display: inline-block;
+        zoom: 1;
+        width: @w;
+        overflow: hidden;
+        text-align: center;
+        .border-radius(4px);
+        cursor: default;
+        margin: 1px;
+    }
+
+    .week .day {
+        height: 20px;
+    }
+
+    .day-weekend {
+        color: #888;
+    }
+
+    .action {
+        cursor: pointer;
+    }
+
+    .action:hover {
+       background:#eee;
+    }
+
+    .month-name {
+        width: 3*@w + 4px;
+    }
+
+    .day-selected {
+        background: @orange !important;
+    }
+}
